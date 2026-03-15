@@ -114,3 +114,119 @@ function gameObject() {
         },
     };
 }
+
+// function for: 3.1 Retrieve Player Information for points scored and shoe size
+function numPointsScored(playerName){
+    const stats = playerStats(playerName);
+    if (stats) {
+        return stats.points
+    } else {
+        return null;
+    }
+}
+
+function shoeSize(playerName ) {
+    const stats = playerStats(playerName);
+    if (stats) {
+        return stats.shoe
+    } else {
+        return null;
+    }
+} 
+
+// function for: 3.2 Retrieve Team Information
+function teamColors(teamName) {
+    const data = gameObject();
+    if (data.home.teamName === teamName){
+        return data.home.colors;
+    }
+    if (data.away.teamName === teamName){
+        return data.away.colors;
+    }
+}
+
+function teamNames() {
+    const data = gameObject();
+    // declare array
+    let namesArray = [];
+    let homeName = data.home.teamName;
+    namesArray.push(homeName);
+    // declare array
+    let awayName = data.away.teamName;
+    namesArray.push(awayName);
+    //return it
+    return namesArray;
+}
+
+// function for 3.3 Retrieve Player Numbers and Stats
+function playerNumbers(teamName) {
+    const data = gameObject();
+    // declare array and initialize variable
+    let numbers = [];
+    let selectedTeam;
+
+    // find the teams that match to names
+    if (data.home.teamName === teamName) {
+        selectedTeam = data.home;
+    } else {
+        selectedTeam = data.away;
+    }
+
+    // loop through the player object
+    for(let name in selectedTeam.players) {
+        let playerObj = selectedTeam.players[name];
+        numbers.push(playerObj.number);
+    }
+
+    // return it
+    return numbers;
+}
+
+function playerStats(playerName){
+    const data = gameObject();
+
+    // check the home team players
+    for(let name in data.home.players) {
+        if (name === playerName) {
+            return data.home.players[name];
+        }
+    }
+
+    // same for the away team
+    for(let name in data.away.players) {
+        if (name === playerName) {
+            return data.away.players[name];
+        }
+    }
+
+    return null;
+}
+
+// function for 3.4 Advanced Challenge
+function bigShoeRebounds() {
+    const data = gameObject();
+    // define and initialize
+    let biggestShoeSize = 0;
+    let reboundsResult = 0;
+
+    //check for home
+    for(let name in data.home.players) {
+        let player = data.home.players[name];
+        if (player.shoe > biggestShoeSize) {
+            biggestShoeSize = player.shoe;
+            reboundsResult = player.rebounds;
+        }
+    }
+
+    // also for away team
+    for(let name in data.away.players) {
+        let player = data.away.players[name];
+        if (player.shoe > biggestShoeSize) {
+            biggestShoeSize = player.shoe;
+            reboundsResult = player.rebounds;
+        }
+    }
+
+    // return it
+    return reboundsResult;
+}
